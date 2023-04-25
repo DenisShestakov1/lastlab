@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-
+#include<string>
 
 using namespace std;
 
@@ -20,15 +20,19 @@ string convert(string res) {
 class HomeAccounting {
 
 public:
-   
+    int other=0;
 
-    void recordExpense(int expense)
+    void recordExpense()
     {
-
+      long  int expenditure;
+        cout << "vvedite trati: ";
+        cin >> expenditure;
+        this->other = expenditure;
         ofstream fout("expenses.txt", ios::app);
+       
         if (fout.is_open())
         {
-            fout << expense << endl;
+            fout << expenditure << endl;
             fout.close();
         }
         else
@@ -36,12 +40,17 @@ public:
             cout << "Unable to open file!"<<"\n";
         }
     }
-    void recordIncome(int income)
+    void recordIncome()
     {
+       long int summ;
+        cout << "vvedite summ: ";
+        cin >> summ;
+
         ofstream fout("incomes.txt", ios::app);
+       
         if (fout.is_open())
         {
-            fout << income << endl;
+            fout << summ << endl;
             fout.close();
         }
         else
@@ -50,19 +59,22 @@ public:
         }
     }
 
-    void calculateBalance()
+    int calculateBalance()
     {
-        int balance = 0;
+      long int incomes = 0;
+      long int expenes = 0;
+        
        
         ifstream fin("incomes.txt");
-
+       
         if (fin.is_open())
         {
-            while (!fin.eof())
+            int token;
+         
+            while (fin>>token)
             {
-                int token;
-                fin >> token;
-                balance += (int)token;
+                incomes += token;
+              
             }
             fin.close();
         }
@@ -70,17 +82,15 @@ public:
         {
             cout << "Unable to open file!"<<"\n";
         }
-
+     
         ifstream fen("expenses.txt");
+       
         if (fen.is_open())
         {
-            while (!fen.eof())
+            int token;
+            while (fen>>token)
             {
-                
-               int token;
-
-                fen >> token;
-                balance -= (int)token;
+                expenes += token;
             }
             fen.close();
         }
@@ -89,40 +99,122 @@ public:
             cout << "Unable to open file!"<<"\n";
         }
         cout << "balance"<<"\t";
-        cout << balance<<"\n";
+        cout << incomes -expenes <<"\n";
+
+        return expenes;
     }
     void percentmonth() {
-        int exepenced,food,cloths,electronic,perevod;
-    
-        food = 20000 * 100 / 100000;
-        cloths = 10000 * 100 / 100000;
-        electronic = 40000 * 100 / 100000;
-        perevod = 30000 * 100 / 100000;
-        cout << "persent month" << "\n";
-        cout << food  << "% food" << "\t";
-        cout << cloths  << "% cloths " << "\t";
-        cout << electronic  << "% electronic " << "\t";
-        cout << perevod  << "% perevod " << "\n";
+        
+ 
+        int sumfood,sumcloths, sumelectronic, sumperevod;
+        int oct=this->other;
+
+        cout << this->other << " trati za month "<<"\n";
+        while (true) {
+            cout << "sumfood ";
+            cin >> sumfood;
+            if (sumfood >= 0 and sumfood <= oct) {
+                oct -= sumfood;
+                break;
+            }
+
+        }
+         
+            while (true) { 
+                cout << "sumcloths ";
+                cin >> sumcloths; 
+                if (sumcloths >= 0 and sumcloths <= oct) {
+                    oct -= sumcloths;
+                    break;
+                }
+            }
+          
+            while (true) {
+                  cout << "sumelectronic ";
+                  cin >> sumelectronic;
+                if (sumelectronic >= 0 and sumelectronic <= oct) {
+                    oct -= sumelectronic;
+                    break;
+                }
+            }
+        
+            while (true) {
+              cout << "sumperevod "; 
+              cin >> sumperevod;
+                if (sumperevod >= 0 and sumperevod <= oct) {
+                    oct -= sumperevod;
+                    break;
+                }
+            }
+      
+        cout << "persent month " << "\n";
+        cout <<  sumfood * 100 / this->other << "% food" << "\t";
+        cout <<  sumcloths * 100 / this->other << "% cloths " << "\t";
+        cout <<  sumelectronic * 100 / this->other << "% electronic " << "\t";
+        cout <<  sumperevod * 100 / this->other << "% perevod " << "\t";
+        cout <<  oct * 100 / this->other << "% other expense" << "\n";
+
+         
     }
     void percentall() {
-        int exepenced, food, cloths, electronic, perevod;
+        int expenes;
+        expenes = calculateBalance();
+        int sumfood, sumcloths, sumelectronic, sumperevod;
+        int oct = expenes;
 
-        food = 200000 * 100 / 1000000;
-        cloths = 100000 * 100 / 1000000;
-        electronic = 400000 * 100 / 1000000;
-        perevod = 300000 * 100 / 1000000;
-        cout << "persent all" << "\n";
-        cout << food << "% food " << "\t";
-        cout << cloths  << "% cloths " << "\t";
-        cout << electronic  << "% electronic" << "\t";
-        cout << perevod  << "% perevod " << "\t";
+        cout << expenes << " vse trati " << "\n";
+        while (true) {
+            cout << "sumfood ";
+            cin >> sumfood;
+            if (sumfood >= 0 and sumfood <= oct) {
+                oct -= sumfood;
+                break;
+            }
+
+        }
+
+        while (true) {
+            cout << "sumcloths ";
+            cin >> sumcloths;
+            if (sumcloths >= 0 and sumcloths <= oct) {
+                oct -= sumcloths;
+                break;
+            }
+        }
+
+        while (true) {
+            cout << "sumelectronic ";
+            cin >> sumelectronic;
+            if (sumelectronic >= 0 and sumelectronic <= oct) {
+                oct -= sumelectronic;
+                break;
+            }
+        }
+
+        while (true) {
+            cout << "sumperevod ";
+            cin >> sumperevod;
+            if (sumperevod >= 0 and sumperevod <= oct) {
+                oct -= sumperevod;
+                break;
+            }
+        }
+
+        cout << "persent month " << "\n";
+        cout << sumfood * 100 / expenes << "% food" << "\t";
+        cout << sumcloths * 100 / expenes << "% cloths " << "\t";
+        cout << sumelectronic * 100 / expenes << "% electronic " << "\t";
+        cout << sumperevod * 100 / expenes << "% perevod " << "\t";
+        cout << oct * 100 / expenes << "% other expense" << "\n";
+
+
     }
+ 
 };
 int main() {
     HomeAccounting* user1 = new HomeAccounting();
-    user1->recordExpense(1000000);
-    user1->recordIncome(1000000);
-    user1->calculateBalance();
-    user1->percentmonth();
+    user1->recordExpense();
+    user1->recordIncome();
     user1->percentall();
+    user1->percentmonth();
 }
